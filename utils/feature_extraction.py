@@ -1,15 +1,12 @@
 import dpkt
-import pandas as pd
 import json
+import pandas as pd
 from scapy.all import *
-from communication_features import Communication_wifi, Communication_zigbee
-from connectivity_features import Connectivity_features_basic, Connectivity_features_time, \
-    connectivity_features_flags_bytes
-from dynamic_features import Dynamic_features
 from layered_features import L3, L4, L2, L1
-from supporting_functions import get_protocol_name, get_flow_info, get_flag_values, compare_flow_flags, \
-    get_src_dst_packets, calculate_incoming_connections, \
-    calculate_packets_counts_per_ips_proto, calculate_packets_count_per_ports_proto
+from dynamic_features import Dynamic_features
+from communication_features import Communication_wifi, Communication_zigbee
+from connectivity_features import Connectivity_features_basic, Connectivity_features_time, connectivity_features_flags_bytes
+from supporting_functions import get_protocol_name, get_flow_info, get_flag_values, compare_flow_flags,  get_src_dst_packets, calculate_incoming_connections, calculate_packets_counts_per_ips_proto, calculate_packets_count_per_ports_proto
     
 from tqdm import tqdm
 import time
