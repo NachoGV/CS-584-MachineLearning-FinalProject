@@ -54,4 +54,36 @@ ATTACKS = {
     'DictionaryBruteForce': 33
 }
 
-## 
+# DDoS ATTACKS to dictionary leave the rest as benign
+DDOS_ATTACKS = {
+    'DDoS-RSTFINFlood': 0,
+    'DDoS-PSHACK_Flood': 1,
+    'DDoS-SYN_Flood': 2,
+    'DDoS-UDP_Flood': 3,
+    'DDoS-TCP_Flood': 4,
+    'DDoS-ICMP_Flood': 5,
+    'DDoS-SynonymousIP_Flood': 6,
+    'DDoS-ACK_Fragmentation': 7,
+    'DDoS-UDP_Fragmentation': 8,
+    'DDoS-ICMP_Fragmentation': 9,
+    'DDoS-SlowLoris': 10,
+    'DDoS-HTTP_Flood': 11,
+    'Mirai-greeth_flood': 26,
+    'Mirai-greip_flood': 26,
+    'Mirai-udpplain': 26,
+    'Recon-PingSweep': 26,
+    'Recon-OSScan': 26,
+    'Recon-PortScan': 26,
+    'VulnerabilityScan': 26,
+    'Recon-HostDiscovery': 26,
+    'DNS_Spoofing': 26,
+    'MITM-ArpSpoofing': 26,
+    'BenignTraffic': 26,
+    'BrowserHijacking': 26,
+    'Backdoor_Malware': 26,
+    'XSS': 26,
+    'Uploading_Attack': 26,
+    'SqlInjection': 26,
+    'CommandInjection': 26,
+    'DictionaryBruteForce': 26
+}
