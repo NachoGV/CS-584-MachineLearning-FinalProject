@@ -1,9 +1,37 @@
-# Demo attack
+# RTMLCA: Real-Time Machine Learning model for large-scale cybersecurity attacks
 
-Send SYN flood attacks to IP: 192.168.43.110
+RTMLCA (Real-Time Machine Learning model for large-scale cybersecurity attacks) is a machine-learning approach that performs classification task over pcap files to infer whether a TCP packet is a threat or not.
+
+## Getting started
+
+First, you have to install the project dependencies. We suggest to create a conda environment to avoid dependencies errors.
 
 ```
-sudo hping3 -V -1 -c 50 -d 400 --fast 192.168.43.110
+pip install -r requirements.txt
 ```
 
-#
+## Data preprocessing
+
+To train our model, we have used the public dataset from the University of New Brunswick ([Link to access the dataset](https://www.mdpi.com/1424-8220/23/13/5941))
+
+## Models
+
+We have trained several ML models that performs classification task.
+
+## Demo attack
+
+For the shake of knowledge, we share the steps we performed to demonstrate our RTMLCA.
+
+### Ubuntu
+
+To record PCAP packets,
+
+```
+sudo -E python3.10 ./real_time_traffic.py
+```
+
+To send SYN flood attacks to the IP of the victim: <IP_VICTIM>
+
+```
+sudo hping3 -V -1 -c 50 -d 400 --fast <IP_VICTIM>
+```

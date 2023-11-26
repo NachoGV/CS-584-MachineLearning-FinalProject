@@ -14,8 +14,8 @@ if __name__ == '__main__':
     print("========== CIC IoT feature extraction ==========")
     
     pcapfiles = [
-    
-]
+        'sniffed.pcap',
+    ]
     subfiles_size = 10 # MB
     split_directory = 'split_temp/'
     destination_directory = 'output/'
@@ -24,8 +24,6 @@ if __name__ == '__main__':
     
     address = "./"
     
-        
-
     
     for i in range(len(pcapfiles)):
         lstart = time.time()

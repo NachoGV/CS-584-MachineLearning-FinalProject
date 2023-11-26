@@ -5,12 +5,8 @@
 from scapy.all import *
 
 def print_pkt(pkt):
-    print("Source IP: " + pkt[IP].src)
-    print("Destination IP: " + pkt[IP].dst)
-    print("Protocol: " + pkt[IP].proto)
-    print("Length: " + pkt[IP].len)
-    print("Source MAC: " + pkt[Ether].src)
-    print("Destination MAC: " + pkt[Ether].dst)
-    
-while True:
-    pkt = sniff(prn=print_pkt)
+    pkt.show()
+
+pkt = sniff(prn=print_pkt, count=1)
+wrpcap('sniffed.pcap', pkt)
+

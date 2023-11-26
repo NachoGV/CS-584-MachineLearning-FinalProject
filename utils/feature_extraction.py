@@ -5,7 +5,7 @@ from scapy.all import *
 from layered_features import L3, L4, L2, L1
 from dynamic_features import Dynamic_features
 from communication_features import Communication_wifi, Communication_zigbee
-from connectivity_features import Connectivity_features_basic, Connectivity_features_time, connectivity_features_flags_bytes
+from connectivity_features import Connectivity_features_basic, Connectivity_features_time, Connectivity_features_flags_bytes
 from supporting_functions import get_protocol_name, get_flow_info, get_flag_values, compare_flow_flags,  get_src_dst_packets, calculate_incoming_connections, calculate_packets_counts_per_ips_proto, calculate_packets_count_per_ports_proto
     
 from tqdm import tqdm
@@ -84,6 +84,7 @@ class Feature_extraction():
         scapy_pak = rdpcap(pcap_file)
         count = 0  # counting the packets
         count_rows = 0
+        rows = []
         for ts, buf in (pcap):
             if type(scapy_pak[count]) == scapy.layers.bluetooth:
                 pass
@@ -212,17 +213,6 @@ class Feature_extraction():
                                               dst_ip)
                     calculate_packets_count_per_ports_proto(average_per_proto_src_port, average_per_proto_dst_port,
                                                             protocol_name, src_port, dst_port)
-                    #----end of Average rate features ---#
-
-                    # if packets_per_protocol.get(protocol_name):
-                    #     packets_per_protocol[protocol_name] = packets_per_protocol[protocol_name] + 1
-                    # else:
-                    #     packets_per_protocol[protocol_name] = 1
-
-                    # if protocol_name in protcols_count.keys():
-                    #     protcols_count[protocol_name] = protcols_count[protocol_name] + 1
-                    # else:
-                    #     protcols_count[protocol_name] = 1
 
 
 
@@ -358,20 +348,6 @@ class Feature_extraction():
                 elif eth.type == dpkt.ethernet.ETH_TYPE_REVARP:  # RARP packets
                     rarp = 1   # Reverce of ARP
 
-                # Average rate features
-                # for key in average_per_proto_src:
-                #     AR_P_Proto_P_SrcIP[key] = average_per_proto_src[key] / total_du
-
-                # for key in average_per_proto_dst:
-                #     AR_P_Proto_P_Dst_IP[key] = average_per_proto_dst[key] / total_du
-
-                # for key in average_per_proto_src_port:
-                #     ar_p_proto_p_src_sport[key] = average_per_proto_src_port[key] / total_du
-
-                # for key in average_per_proto_dst_port:
-                #     ar_p_proto_p_dst_dport[key] = average_per_proto_dst_port[key] / total_du
-
-                # end of average rate features
                 if len(flag_valus) == 0:
                     for i in range(0,8):
                         flag_valus.append(0)
@@ -446,21 +422,12 @@ class Feature_extraction():
                            "flow_active_time":active_time}
                 for c in base_row.keys():
                     base_row[c].append(new_row[c])
-                    
+                
+                rows.append(new_row)  
                 count_rows+=1
                 
                
-        processed_df = pd.DataFrame(base_row)
-        # summary
-        last_row = 0
-        n_rows = 10
-        df_summary_list = []
-        while last_row<len(processed_df):
-            sliced_df = processed_df[last_row:last_row+n_rows]
-            sliced_df = pd.DataFrame(sliced_df.mean()).T# mean
-            df_summary_list.append(sliced_df)
-            last_row += n_rows
-        processed_df = pd.concat(df_summary_list).reset_index(drop=True)
+        processed_df = pd.DataFrame(rows)
         processed_df.to_csv(csv_file_name+".csv", index=False)
-        return True
+        return processed_df
 
