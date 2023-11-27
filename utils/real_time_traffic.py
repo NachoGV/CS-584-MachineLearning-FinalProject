@@ -14,10 +14,10 @@ def print_pkt(pkt):
     global no_ip
     
     total = total + 1
-
+#a0:c5:89:7b:b1:c3
     try:
-        print('Source IP: ' + pkt[IP].src)
-        if pkt[IP].src == '192.168.43.221':
+        print('Source MAC: ' + pkt[IP].src)
+        if pkt[IP].src == '10.216.22.110':
             mario = mario + 1
     except:
         no_ip = no_ip + 1

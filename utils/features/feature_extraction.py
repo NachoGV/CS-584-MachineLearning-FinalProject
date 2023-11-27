@@ -323,14 +323,6 @@ class Feature_extraction():
                     else:
                         dst_port_packet_count[dst_port] = 1
 
-
-
-
-
-
-
-
-
                 elif eth.type == dpkt.ethernet.ETH_TYPE_ARP:   # ARP packets
                     # print("ARP packet")
                     protocol_name = "ARP"
@@ -423,7 +415,8 @@ class Feature_extraction():
                            "Protocol Version": pack_id,
                            "flow_idle_time":idle_time,
                            "flow_active_time":active_time,
-                           "source_ip": src_ip,}
+                           "source_ip": src_ip,
+                           }
                 for c in base_row.keys():
                     base_row[c].append(new_row[c])
                 
