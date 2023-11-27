@@ -26,8 +26,8 @@ def print_pkt(pkt):
     print(total)
 
 if __name__ == '__main__':
-    pkt = sniff(prn=print_pkt, count = 500)
-    wrpcap('sniffed.pcap', pkt)
+    pkt = sniff(prn=print_pkt, count = 1000)
+    wrpcap('../inputs/sniffed.pcap', pkt)
 
     print('Total packets: ', total)
     print('Mario packets: ', mario)
