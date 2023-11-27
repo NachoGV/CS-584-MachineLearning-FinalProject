@@ -33,5 +33,11 @@ sudo -E python3.10 ./real_time_traffic.py
 To send SYN flood attacks to the IP of the victim: <IP_VICTIM>
 
 ```
-sudo hping3 -V -1 -c 50 -d 400 --fast <IP_VICTIM>
+sudo hping3 --rand-source --flood <IP_VICTIM>
+```
+
+but in our tests, we ran it without --rand-source since we had to check the ground truth.
+
+```
+sudo hping3 --flood <IP_VICTIM>
 ```
