@@ -48,3 +48,10 @@ def fit_dataset(n_files, attck_type, transforms=StandardScaler()):
     test_df[LABELS] = test_df[LABELS].apply(lambda x: attck_type[x])
     
     return train_df, test_df
+
+def get_classes_weights(df):
+    classes = df[LABELS].unique()
+    weights = {}
+    for c in classes:
+        weights[c] = len(df[LABELS]) / (len(classes) * len(df[df[LABELS] == c]))
+    return weights
