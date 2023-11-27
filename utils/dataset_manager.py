@@ -6,10 +6,9 @@ from tqdm import tqdm
 from sklearn.preprocessing import StandardScaler
 from utils.constant import DATASET_DIRECTORY, FEATURES, LABELS
 
-def fit_dataset(n_files, attck_type, transforms=StandardScaler()):
-
+def fit_dataset(n_files, attck_type, transforms=StandardScaler(), dataset_directory=DATASET_DIRECTORY):
     # File Paths
-    df_sets = [k for k in os.listdir(DATASET_DIRECTORY) if k.endswith('.csv')]
+    df_sets = [k for k in os.listdir(dataset_directory) if k.endswith('.csv')]
     df_sets.sort()
 
     # Split
@@ -19,7 +18,7 @@ def fit_dataset(n_files, attck_type, transforms=StandardScaler()):
     # Training data
     train_df = pd.DataFrame()
     for train_set in tqdm(train_sets):
-        df_set = pd.read_csv(DATASET_DIRECTORY + train_set)
+        df_set = pd.read_csv(dataset_directory + train_set)
         train_df = train_df._append(df_set, ignore_index=True)
 
         # Fit scaler
@@ -28,7 +27,7 @@ def fit_dataset(n_files, attck_type, transforms=StandardScaler()):
     # Testing data
     test_df = pd.DataFrame()
     for test_set in tqdm(test_sets):
-        df_set = pd.read_csv(DATASET_DIRECTORY + test_set)
+        df_set = pd.read_csv(dataset_directory + test_set)
         test_df = test_df._append(df_set, ignore_index=True)
 
     # Clean data
