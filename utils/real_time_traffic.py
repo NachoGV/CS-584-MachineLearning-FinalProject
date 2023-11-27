@@ -4,9 +4,31 @@
 
 from scapy.all import *
 
+total = 0
+mario = 0
+no_ip = 0
+
 def print_pkt(pkt):
-    pkt.show()
+    global total
+    global mario
+    global no_ip
+    
+    total = total + 1
 
-pkt = sniff(prn=print_pkt, count=1)
-wrpcap('sniffed.pcap', pkt)
+    try:
+        print('Source IP: ' + pkt[IP].src)
+        if pkt[IP].src == '192.168.43.221':
+            mario = mario + 1
+    except:
+        no_ip = no_ip + 1
+        pass
 
+    print(total)
+
+if __name__ == '__main__':
+    pkt = sniff(prn=print_pkt, count = 500)
+    wrpcap('sniffed.pcap', pkt)
+
+    print('Total packets: ', total)
+    print('Mario packets: ', mario)
+    print('No IP packets: ', no_ip)

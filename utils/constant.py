@@ -1,6 +1,6 @@
 ## Constant variables used in the project
 
-DATASET_DIRECTORY = 'data/'
+DATASET_DIRECTORY = '../data/'
 
 FEATURES = [
     'flow_duration', 'Header_Length', 'Protocol Type', 'Duration',
@@ -17,7 +17,7 @@ FEATURES = [
 LABELS = 'label'
 
 # Attacks to dictionary
-ATTACKS = {
+ALL_ATTACKS = {
     'DDoS-RSTFINFlood': 0,
     'DDoS-PSHACK_Flood': 1,
     'DDoS-SYN_Flood': 2,
@@ -54,36 +54,78 @@ ATTACKS = {
     'DictionaryBruteForce': 33
 }
 
-# DDoS ATTACKS to dictionary leave the rest as benign
-DDOS_ATTACKS = {
+# SYN_FLOOD_ATTACKS
+SYN_FLOOD_ATTACKS = {
     'DDoS-RSTFINFlood': 0,
+    'DDoS-PSHACK_Flood': 0,
+    'DDoS-SYN_Flood': 1,
+    'DDoS-UDP_Flood': 0,
+    'DDoS-TCP_Flood': 0,
+    'DDoS-ICMP_Flood': 0,
+    'DDoS-SynonymousIP_Flood': 0,
+    'DDoS-ACK_Fragmentation': 0,
+    'DDoS-UDP_Fragmentation': 0,
+    'DDoS-ICMP_Fragmentation': 0,
+    'DDoS-SlowLoris': 0,
+    'DDoS-HTTP_Flood': 0,
+    'DoS-UDP_Flood': 0,
+    'DoS-SYN_Flood': 1,
+    'DoS-TCP_Flood': 0,
+    'DoS-HTTP_Flood': 0,
+    'Mirai-greeth_flood': 0,
+    'Mirai-greip_flood': 0,
+    'Mirai-udpplain': 0,
+    'Recon-PingSweep': 0,
+    'Recon-OSScan': 0,
+    'Recon-PortScan': 0,
+    'VulnerabilityScan': 0,
+    'Recon-HostDiscovery': 0,
+    'DNS_Spoofing': 0,
+    'MITM-ArpSpoofing': 0,
+    'BenignTraffic': 0,
+    'BrowserHijacking': 0,
+    'Backdoor_Malware': 0,
+    'XSS': 0,
+    'Uploading_Attack': 0,
+    'SqlInjection': 0,
+    'CommandInjection': 0,
+    'DictionaryBruteForce': 0
+}
+
+# ATTACKS / NON_ATTACKS
+ATTACKS = {
+    'DDoS-RSTFINFlood': 1,
     'DDoS-PSHACK_Flood': 1,
-    'DDoS-SYN_Flood': 2,
-    'DDoS-UDP_Flood': 3,
-    'DDoS-TCP_Flood': 4,
-    'DDoS-ICMP_Flood': 5,
-    'DDoS-SynonymousIP_Flood': 6,
-    'DDoS-ACK_Fragmentation': 7,
-    'DDoS-UDP_Fragmentation': 8,
-    'DDoS-ICMP_Fragmentation': 9,
-    'DDoS-SlowLoris': 10,
-    'DDoS-HTTP_Flood': 11,
-    'Mirai-greeth_flood': 26,
-    'Mirai-greip_flood': 26,
-    'Mirai-udpplain': 26,
-    'Recon-PingSweep': 26,
-    'Recon-OSScan': 26,
-    'Recon-PortScan': 26,
-    'VulnerabilityScan': 26,
-    'Recon-HostDiscovery': 26,
-    'DNS_Spoofing': 26,
-    'MITM-ArpSpoofing': 26,
-    'BenignTraffic': 26,
-    'BrowserHijacking': 26,
-    'Backdoor_Malware': 26,
-    'XSS': 26,
-    'Uploading_Attack': 26,
-    'SqlInjection': 26,
-    'CommandInjection': 26,
-    'DictionaryBruteForce': 26
+    'DDoS-SYN_Flood': 1,
+    'DDoS-UDP_Flood': 1,
+    'DDoS-TCP_Flood': 1,
+    'DDoS-ICMP_Flood': 1,
+    'DDoS-SynonymousIP_Flood': 1,
+    'DDoS-ACK_Fragmentation': 1,
+    'DDoS-UDP_Fragmentation': 1,
+    'DDoS-ICMP_Fragmentation': 1,
+    'DDoS-SlowLoris': 1,
+    'DDoS-HTTP_Flood': 1,
+    'DoS-UDP_Flood': 1,
+    'DoS-SYN_Flood': 1,
+    'DoS-TCP_Flood': 1,
+    'DoS-HTTP_Flood': 1,
+    'Mirai-greeth_flood': 1,
+    'Mirai-greip_flood': 1,
+    'Mirai-udpplain': 1,
+    'Recon-PingSweep': 1,
+    'Recon-OSScan': 1,
+    'Recon-PortScan': 1,
+    'VulnerabilityScan': 1,
+    'Recon-HostDiscovery': 1,
+    'DNS_Spoofing': 1,
+    'MITM-ArpSpoofing': 1,
+    'BenignTraffic': 0,
+    'BrowserHijacking': 1,
+    'Backdoor_Malware': 1,
+    'XSS': 1,
+    'Uploading_Attack': 1,
+    'SqlInjection': 1,
+    'CommandInjection': 1,
+    'DictionaryBruteForce': 1
 }

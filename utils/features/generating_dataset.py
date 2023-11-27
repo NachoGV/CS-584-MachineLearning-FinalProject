@@ -6,7 +6,7 @@ import pandas as pd
 from tqdm import tqdm
 warnings.filterwarnings('ignore')
 from multiprocessing import Process
-from feature_extraction import Feature_extraction
+from utils.features.feature_extraction import Feature_extraction
 
 if __name__ == '__main__':
 

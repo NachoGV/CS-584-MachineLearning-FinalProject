@@ -1,15 +1,12 @@
 import dpkt
-import json
+import time
 import pandas as pd
 from scapy.all import *
-from layered_features import L3, L4, L2, L1
-from dynamic_features import Dynamic_features
-from communication_features import Communication_wifi, Communication_zigbee
-from connectivity_features import Connectivity_features_basic, Connectivity_features_time, Connectivity_features_flags_bytes
-from supporting_functions import get_protocol_name, get_flow_info, get_flag_values, compare_flow_flags,  get_src_dst_packets, calculate_incoming_connections, calculate_packets_counts_per_ips_proto, calculate_packets_count_per_ports_proto
-    
-from tqdm import tqdm
-import time
+from utils.features.layered_features import L3, L4, L2, L1
+from utils.features.dynamic_features import Dynamic_features
+from utils.features.communication_features import Communication_wifi, Communication_zigbee
+from utils.features.connectivity_features import Connectivity_features_basic, Connectivity_features_time, Connectivity_features_flags_bytes
+from utils.features.supporting_functions import get_protocol_name, get_flow_info, get_flag_values, compare_flow_flags,  get_src_dst_packets, calculate_incoming_connections, calculate_packets_counts_per_ips_proto, calculate_packets_count_per_ports_proto
 
 class Feature_extraction():
     columns = ["ts","flow_duration","Header_Length",
@@ -80,6 +77,7 @@ class Feature_extraction():
         outgoing_pack = []
         f = open(pcap_file, 'rb')
         pcap = dpkt.pcap.Reader(f)
+
         ## Using SCAPY for Zigbee and blutooth ##
         scapy_pak = rdpcap(pcap_file)
         count = 0  # counting the packets
@@ -99,6 +97,7 @@ class Feature_extraction():
             ethernet_frame_size = len(eth)
             ethernet_frame_type = eth.type
             total_du = total_du + ts
+
             # initilization #
             src_port, src_ip, dst_port, duration = 0, 0, 0, 0
             dst_ip, proto_type, protocol_name = 0, 0, ""
@@ -110,9 +109,11 @@ class Feature_extraction():
             IAT = 0
             src_to_dst_pkt, dst_to_src_pkt = 0, 0  # count of packets from src to des and vice-versa
             src_to_dst_byte, dst_to_src_byte = 0, 0  # Total bytes of packets from src to dst and vice-versa
+
             # flags
             flag_valus = []  # numerical values of packet(TCP) flags
             ack_count, syn_count, fin_count, urg_count, rst_count = 0, 0, 0, 0, 0
+
             # Layered flags
             udp, tcp, http, https, arp, smtp, irc, ssh, dns, ipv, icmp, igmp, mqtt, coap = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
             telnet, dhcp, llc, mac, rarp = 0, 0, 0, 0, 0
@@ -205,7 +206,6 @@ class Feature_extraction():
                     llc = l_one.LLC()
                     mac = l_one.MAC()
 
-
                     # Extra features of Bot-IoT and Ton-IoT
 
                     # Average rate features
@@ -231,6 +231,7 @@ class Feature_extraction():
                     l_four_both = L4(src_port, dst_port)
                     coap = l_four_both.coap()
                     smtp = l_four_both.smtp()
+
                     # Features related to UDP
                     if type(potential_packet) == dpkt.udp.UDP:
                         src_port = con_basic.get_source_port()
@@ -259,6 +260,7 @@ class Feature_extraction():
                         number_of_packets_per_trabsaction = len(packets)
                         flow_byte, flow_duration, max_duration, min_duration, sum_duration, average_duration, std_duration, idle_time,active_time = get_flow_info(udpflows,flow)
                         src_to_dst_pkt, dst_to_src_pkt, src_to_dst_byte, dst_to_src_byte = get_src_dst_packets(udpflows, flow)
+                    
                     # Features related to TCP
                     elif type(potential_packet) == dpkt.tcp.TCP:
                         src_port = con_basic.get_source_port()
@@ -269,6 +271,7 @@ class Feature_extraction():
                             dst_packet_count[dst_port] = 1
 
                         flag_valus = get_flag_values(ip.data)
+                        
                         # L4 features based on TCP
                         l_four = L4(src_port,dst_port)
                         http = l_four.http()
@@ -419,7 +422,8 @@ class Feature_extraction():
                            "Sequence number":sequence,
                            "Protocol Version": pack_id,
                            "flow_idle_time":idle_time,
-                           "flow_active_time":active_time}
+                           "flow_active_time":active_time,
+                           "source_ip": src_ip,}
                 for c in base_row.keys():
                     base_row[c].append(new_row[c])
                 
