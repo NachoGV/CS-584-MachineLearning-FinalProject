@@ -1,10 +1,8 @@
 # Python
 __pycache__/
 
-# Dataser
+# Dataset & Outputs
 data/*.pcap
 data/*.csv
-
-# Data
 inputs/
 outputs/
