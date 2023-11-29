@@ -1,34 +1,87 @@
-# Using scapy, this script will sniff the network for packets and print out the source and destination IP addresses
-# as well as the protocol and length of the packet. This script will also print out the source and destination MAC
-# addresses for each packet.
+import sys
+sys.path.append('../')
 
+import pandas as pd
 from scapy.all import *
-
-total = 0
-mario = 0
-no_ip = 0
+from joblib import load
+from constant import FEATURES
+from sklearn.preprocessing import StandardScaler
+from features.feature_extraction import Feature_extraction
 
 def print_pkt(pkt):
-    global total
-    global mario
-    global no_ip
-    
-    total = total + 1
-#a0:c5:89:7b:b1:c3
-    try:
-        print('Source MAC: ' + pkt[IP].src)
-        if pkt[IP].src == '10.216.22.110':
-            mario = mario + 1
-    except:
-        no_ip = no_ip + 1
-        pass
 
+    # Declare global variables
+    global total
+    global ip
+    global model
+    global attacker
+    global TP, FP, TN, FN
+
+    total += 1
     print(total)
 
-if __name__ == '__main__':
-    pkt = sniff(prn=print_pkt, count = 1000)
-    wrpcap('../inputs/sniffed.pcap', pkt)
+    try:
+        if pkt[IP].src == ip:
+            attacker += 1
 
-    print('Total packets: ', total)
-    print('Mario packets: ', mario)
-    print('No IP packets: ', no_ip)
+        wrpcap('../inputs/sniffed.pcap', pkt)
+        
+        pcapfiles = [
+        '../inputs/sniffed.pcap',
+        ]
+        destination_directory = '../outputs/'
+        df = pd.DataFrame()
+        for i in range(len(pcapfiles)):
+            pcap_file = pcapfiles[i]
+            fe = Feature_extraction()
+            df = fe.pcap_evaluation(pcap_file,destination_directory + pcap_file)
+
+        scaler = StandardScaler()
+        scaler.fit(df[FEATURES])
+        df[FEATURES] = scaler.transform(df[FEATURES])
+
+        pred = model.predict(df[FEATURES])
+        
+        if pred[0] == 1 and pkt[IP].src == ip:
+            TP += 1
+        elif pred[0] == 1 and pkt[IP].src != ip:
+            FP += 1
+        elif pred[0] == 0 and pkt[IP].src == ip:
+            FN += 1
+        elif pred[0] == 0 and pkt[IP].src != ip:
+            TN += 1
+
+    except:
+        pass
+
+
+if __name__ == '__main__':
+
+    # Declare global variables
+    global total, attacker
+    global model
+    global ip
+    global TP, FP, TN, FN
+
+    # Initialize variables
+    total, attacker, TP, FP, TN, FN = 0, 0, 0, 0, 0, 0
+    print('Loading model...')
+    model = load('../outputs/best_model_syn_attacks.joblib')
+    count = 1000
+    ip = "192.168.75.221"
+
+    # Sniff
+    print('Sniffing...\n')
+    pkt = sniff(prn=print_pkt, count=count)
+
+    # Annalyze results
+    recall = TP/(TP+FN)
+    precision = TP/(TP+FP)
+    accuracy = (TP+TN)/(TP+TN+FP+FN)
+
+    # Prints
+    print('Packets read: ', total)
+    print('Packets from Attacker (Ground Truth)', attacker)
+    print('recall:', recall)
+    print('precision:', precision)
+    print('accuracy:', accuracy)
