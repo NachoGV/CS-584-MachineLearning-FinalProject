@@ -22,6 +22,8 @@ We have trained several ML models that performs classification task.
 
 For the shake of knowledge, we share the steps we performed to demonstrate our RTMLCA.
 
+![demo diagram](https://github.com/NachoGV/CS-584-FinalProject/blob/main/media/demo_diagram.png)
+
 ### Ubuntu
 
 To record PCAP packets,
