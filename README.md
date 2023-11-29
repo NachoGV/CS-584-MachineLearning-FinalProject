@@ -24,6 +24,8 @@ For the shake of knowledge, we share the steps we performed to demonstrate our R
 
 ![demo diagram](https://github.com/NachoGV/CS-584-FinalProject/blob/main/media/demo_diagram.png)
 
+![demo video](https://github.com/NachoGV/CS-584-FinalProject/blob/main/media/real_time_demo.mp4)
+
 ### Ubuntu
 
 To record PCAP packets,
