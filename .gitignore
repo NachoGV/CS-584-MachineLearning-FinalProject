@@ -6,3 +6,4 @@ data/*.pcap
 data/*.csv
 inputs/
 outputs/
+*.zip
